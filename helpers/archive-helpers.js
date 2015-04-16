@@ -33,30 +33,26 @@ exports.readListOfUrls = function(cb){
   });
 };
 
-exports.isUrlInList = function(url){
+exports.isUrlInList = function(url, cb){
   // call readListOfUrls to get LIST and check if URL is in LIST
   var inList = false;
   this.readListOfUrls(function(list){
-    if(list.indexOf(url) > 0){
+    if(list.indexOf(url) >= 0){
       inList = true;
     }
+    cb(inList);
   });
-  return inList;
 };
 
 exports.addUrlToList = function(url){
-  console.log(this.paths.list);
-  console.log(url);
   fs.appendFile(this.paths.list, url + "\n", function(err){
-    console.log('append file');
     if(err) throw err;
   }); // append sites to sites.txt
-
 };
 
 exports.isURLArchived = function(url, cb){
   // check arcives/sites for file
-  fs.exists(this.paths.archivedSites + url, function(exists){
+  fs.exists(this.paths.archivedSites + '/' + url, function(exists){
     cb(exists);
   });
 };

@@ -6,7 +6,6 @@ var httpH = require('./http-helpers');
 // require more modules/folders here!
 
 exports.handleRequest = function (req, res) {
-  var urlExists = false;
   if (req.method === 'GET') {
 
     if (req.url === '/') { req.url = '/index.html'; }
@@ -14,7 +13,6 @@ exports.handleRequest = function (req, res) {
     // if req.url is in public
     fs.exists(archive.paths.siteAssets + req.url, function(exists) {
       if (exists) {
-        urlExists = true;
         httpH.serveAssets(res, 200, archive.paths.siteAssets + req.url, function(data) {
           res.end(data);
         });
@@ -38,21 +36,31 @@ exports.handleRequest = function (req, res) {
 
     // get site url from req object
     httpH.collectData(req, function(site){
-      console.log(site);
-      if(!archive.isUrlInList(site)){
-        console.log('site does not exist');
-      //call addurltolist
-        archive.addUrlToList(site);
-      //serve loading html
-        httpH.serveAssets(res, 302, archive.paths.siteAssets + '/loading.html', function(data){
-          res.end(data);
-        });
-      }
+      archive.isUrlInList(site, function(inList) {
+        if (!inList) {
+          //call addurltolist
+          archive.addUrlToList(site);
+          //serve loading html
+          httpH.serveAssets(res, 302, archive.paths.siteAssets + '/loading.html', function(data){
+            res.end(data);
+          });
+        } else {
+          archive.isURLArchived(site, function(exists) {
+            if (exists) {
+              httpH.serveAssets(res, 200, archive.paths.archivedSites + '/' + site, function(data) {
+                res.end(data);
+              });
+            } else {
+              //serve loading html
+              httpH.serveAssets(res, 302, archive.paths.siteAssets + '/loading.html', function(data){
+                res.end(data);
+              });
+            }
+          });
+        }
+      });
     });
-    //
-
   }
-
 };
 
 
