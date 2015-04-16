@@ -16,8 +16,6 @@ exports.handleRequest = function (req, res) {
 
     var asset = archive.paths.siteAssets + req.url; // ??? can we send entire folder?
     httpH.serveAssets(res, asset, function(data) {
-      console.log('serve asset', asset);
-      console.log(data);
       res.end(data);
     });
   }
