@@ -45,14 +45,19 @@ exports.isUrlInList = function(url){
 };
 
 exports.addUrlToList = function(url){
-  // fs.writeFileSync(archive.paths.list, urlArray.join("\n")); // append sites to sites.txt
+  fs.appendFile(archive.paths.list, url + "\n", {encoding:'utf8'}, function(err){
+    if(err) throw err;
+  }); // append sites to sites.txt
 
 };
 
-exports.isURLArchived = function(){
+exports.isURLArchived = function(url, cb){
   // check arcives/sites for file
-  // reference archivedSites
-  // reference path - archived sites or public
+  fs.exists(this.paths.archivedSites + url, function(exists){
+    exists && cb();
+    console.log(exists);
+
+  });
 };
 
 exports.downloadUrls = function(){

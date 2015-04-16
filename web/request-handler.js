@@ -9,15 +9,32 @@ exports.handleRequest = function (req, res) {
 
   if (req.method === 'GET') {
 
-    // if req.url is something in 'public' or 'sites'
-      // httpH.serveAssets(res, req.url, cb)
     if (req.url === '/') { req.url = '/index.html'; }
 
-
-    var asset = archive.paths.siteAssets + req.url; // ??? can we send entire folder?
-    httpH.serveAssets(res, asset, function(data) {
-      res.end(data);
+    // if req.url is in public
+    fs.exists(archive.paths.siteAssets + req.url, function(exists) {
+      if (exists) {
+        httpH.serveAssets(res, archive.paths.siteAssets + req.url, function(data) {
+          console.log(req.url);
+          res.end(data);
+        });
+      }
     });
+
+    // if req.url is in sites
+    archive.isURLArchived(req.url, function() {
+      httpH.serveAssets(res, archive.paths.archivedSites + req.url, function(data) {
+        res.end(data);
+      });
+    });
+
+
+    // invoke isURLArchived(req.url) to check if it is in sites
+      // serve
+    //
+
+    // if req.url is something in 'public' or 'sites'
+      // httpH.serveAssets(res, req.url, cb)
   }
   // if GET, pull from archives
   //call serveAssets(res, asset, cb)
