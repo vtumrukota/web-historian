@@ -35,7 +35,16 @@ exports.collectData = function(req, cb) {
   req.on('end', function() {
     cb(body.slice(4));
   });
-}
+};
+
+exports.writeArchive = function(url) {
+  httpreq.get(url, function(err, res) {
+    if (err) throw err;
+    fs.writeFile(archive.paths.archivedSites + '/' + url, res.buffer.toString(), 'utf8', function(err) {
+      if (err) throw err;
+    });
+  });
+};
 
 // As you progress, keep thinking about what helper functions you can put here!
 

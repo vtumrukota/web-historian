@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
+var httpH = require('../web/http-helpers');
 
 /*
  * You will need to reuse the same paths many times over in the course of this sprint.
@@ -58,6 +59,25 @@ exports.isURLArchived = function(url, cb){
 };
 
 exports.downloadUrls = function(){
+  // readListOfUrls to get array of urls
+  exports.readListOfUrls(function(urls) {
+    // iterate over array
+    _.each(urls, function(url) {
+      //check if url exists in archive
+      exports.isURLArchived(url, function(exists) {
+      // if file doesn't exist
+        if (!exists) {
+          // get request to url
+          // in success function use chunkData to get body
+          // write to file in sites folder
+          httpH.writeArchive(url);
+        }
+      });
+    });
+  });
+
+
+
   // file io - data buffer chunk thing
   // write to file ??
 };
