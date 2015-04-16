@@ -45,7 +45,10 @@ exports.isUrlInList = function(url){
 };
 
 exports.addUrlToList = function(url){
-  fs.appendFile(archive.paths.list, url + "\n", {encoding:'utf8'}, function(err){
+  console.log(this.paths.list);
+  console.log(url);
+  fs.appendFile(this.paths.list, url + "\n", function(err){
+    console.log('append file');
     if(err) throw err;
   }); // append sites to sites.txt
 
@@ -54,9 +57,7 @@ exports.addUrlToList = function(url){
 exports.isURLArchived = function(url, cb){
   // check arcives/sites for file
   fs.exists(this.paths.archivedSites + url, function(exists){
-    exists && cb();
-    console.log(exists);
-
+    cb(exists);
   });
 };
 
