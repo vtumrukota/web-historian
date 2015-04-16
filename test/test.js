@@ -107,7 +107,7 @@ describe("html fetcher helpers", function(){
     var urlArray = ["example1.com", "example2.com"];
     var resultArray;
 
-    fs.writeFileSync(archive.paths.list, urlArray.join("\n"));
+    fs.writeFileSync(archive.paths.list, urlArray.join("\n")); // append sites to sites.txt
     archive.readListOfUrls(function(urls){
       resultArray = urls;
     });

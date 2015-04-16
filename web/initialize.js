@@ -21,3 +21,7 @@ module.exports = function () {
     fs.mkdirSync("./archives/sites");
   }
 };
+
+
+
+//Creating the appropriate folders on the server to store information

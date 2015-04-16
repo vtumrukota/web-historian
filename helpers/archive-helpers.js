@@ -25,17 +25,32 @@ exports.initialize = function(pathsObj){
 // The following function names are provided to you to suggest how you might
 // modularize your code. Keep it clean!
 
-exports.readListOfUrls = function(){
+exports.readListOfUrls = function(fn){
+  // read list in sites.txt
+  // return array of sites
+  // fn(sitesArray);
 };
 
-exports.isUrlInList = function(){
+exports.isUrlInList = function(url){
+  // call readListOfUrls and check if in array
+  // return true/false
 };
 
-exports.addUrlToList = function(){
+exports.addUrlToList = function(url){
+  // fs.writeFileSync(archive.paths.list, urlArray.join("\n")); // append sites to sites.txt
+
 };
 
 exports.isURLArchived = function(){
+  // check arcives/sites for file
+  // reference archivedSites
+  // reference path - archived sites or public
 };
 
 exports.downloadUrls = function(){
+  // file io - data buffer chunk thing
+  // write to file ??
 };
+
+
+//

@@ -1,6 +1,7 @@
 var path = require('path');
 var fs = require('fs');
 var archive = require('../helpers/archive-helpers');
+var httpreq = require('http-request');
 
 exports.headers = headers = {
   "access-control-allow-origin": "*",
@@ -11,10 +12,26 @@ exports.headers = headers = {
 };
 
 exports.serveAssets = function(res, asset, callback) {
-  // Write some code here that helps serve up your static files!
+  // Write some code here that helps serve up your static files! - archived sites, public
   // (Static files are things like html (yours or archived from others...), css, or anything that doesn't change often.)
+  // access asset on file system - buffering
+  // set res code
+    // if file not found 404
+    // if found 200, 201
+  fs.readFile(asset, 'utf8', function(err, data) {
+    if (err) console.log(err);
+    res.writeHead(200, headers);
+    // console.log(data);
+    callback(data);
+  });
+  // invoke callback with data
 };
 
 
 
 // As you progress, keep thinking about what helper functions you can put here!
+
+
+
+
+//Send back all the appropriate files in archive
